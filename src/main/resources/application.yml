@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: tcc
+  datasource:
+    url: jdbc:postgresql://localhost:1234/tccdb
+    username: postgres
+    password: postgres
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.format_sql: true
+
+  flyway:
+    enabled: true                # garante que o Flyway rode
+    baseline-on-migrate: true    # útil se já existir estrutura no banco
+    locations: classpath:db/migration  # pasta padrão onde ficam os scripts
+
+  jackson:
+    time-format: HH:mm
+    serialization:
+      write-dates-as-timestamps: false
+
+jwt:
+  private:
+    key: "classpath:chave_privada.key"
+  public:
+    key: "classpath:chave_publica.pub"

@@ -4,6 +4,7 @@ package com.projeto.tcc.service;
 import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.dto.exit.MachineModelResultDTO;
 import com.projeto.tcc.dto.mappers.MachineModelMapper;
+import com.projeto.tcc.dto.update.UpdateMachineModelDTO;
 import com.projeto.tcc.entities.MachineModel;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.MachineModelRepository;
@@ -24,7 +25,7 @@ public class MachineModelService {
 
     public MachineModel saveModel(MachineModelDTO dto){
         MachineModel modelo = mapper.toEntity(dto);
-        validation.validarEntidade(modelo, dto);
+        validation.validarEntidade(modelo);
         return repository.save(modelo);
     }
 
@@ -38,9 +39,9 @@ public class MachineModelService {
         return repository.findAll(pageable).map(mapper::toDTO);
     }
 
-    public void updateMachineModel(Long idModel, MachineModelDTO dto){
+    public void updateMachineModel(Long idModel, UpdateMachineModelDTO dto){
         MachineModel machineModel = repository.findById(idModel).orElseThrow(() -> new NaoRegistradoException("Modelo com o id " + idModel + " não encontrado"));
-        validation.validarEntidade(machineModel, dto);
+        validation.validarEntidade(machineModel);
         mapper.updateEntity(dto, machineModel);
         repository.save(machineModel);
     }

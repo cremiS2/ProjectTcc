@@ -2,6 +2,7 @@ package com.projeto.tcc.dto.mappers;
 
 import com.projeto.tcc.dto.entry.MachineDTO;
 import com.projeto.tcc.dto.exit.MachineResultDTO;
+import com.projeto.tcc.dto.update.UpdateMachineDTO;
 import com.projeto.tcc.entities.Machine;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.repository.MachineModelRepository;
@@ -45,7 +46,7 @@ public abstract class MachineMapper {
                     "java(dto.machineModel() == null ? machine.getMachineModel() : machineModelRepository.findById(dto.machineModel()).orElse(null))")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "status", ignore = true)
-    public abstract void updateEntityFromDto(MachineDTO dto, @MappingTarget Machine machine);
+    public abstract void updateEntityFromDto(UpdateMachineDTO dto, @MappingTarget Machine machine);
 
 
 

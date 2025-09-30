@@ -2,6 +2,7 @@ package com.projeto.tcc.dto.mappers;
 
 import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.dto.exit.MachineModelResultDTO;
+import com.projeto.tcc.dto.update.UpdateMachineModelDTO;
 import com.projeto.tcc.entities.MachineModel;
 import org.mapstruct.*;
 
@@ -16,6 +17,6 @@ public interface MachineModelMapper {
 
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntity(MachineModelDTO dto, @MappingTarget MachineModel machineModel);
+    void updateEntity(UpdateMachineModelDTO dto, @MappingTarget MachineModel machineModel);
 
 }

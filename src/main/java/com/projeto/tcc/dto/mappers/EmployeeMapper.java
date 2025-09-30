@@ -60,5 +60,5 @@ public abstract class EmployeeMapper {
     @Mapping(target = "status",
             ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public abstract void updateFuncionario(EmployeeDTO dto, @MappingTarget Employee entidade);
+    public abstract void updateFuncionario(UpdateEmployeeDTO dto, @MappingTarget Employee entidade);
 }

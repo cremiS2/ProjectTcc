@@ -3,8 +3,10 @@ package com.projeto.tcc.service;
 import com.projeto.tcc.dto.entry.MachineDTO;
 import com.projeto.tcc.dto.exit.MachineResultDTO;
 import com.projeto.tcc.dto.mappers.MachineMapper;
+import com.projeto.tcc.dto.update.UpdateMachineDTO;
 import com.projeto.tcc.entities.Machine;
 import com.projeto.tcc.enums.StatusMachine;
+import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.MachineRepository;
 import com.projeto.tcc.service.validation.MachineValidation;
@@ -26,9 +28,17 @@ public class MachineService {
     private final MachineValidation validation;
 
 
+
     public Machine saveMachine(MachineDTO machineDTO) {
         Machine machineEntidade = mapper.toEntity(machineDTO);
-        validation.validarInformacoes(machineEntidade, machineDTO);
+        try{
+            if(machineDTO.status() != null){
+                StatusMachine.valueOf(machineDTO.status().toUpperCase());
+            }
+        }catch (IllegalArgumentException e){
+            throw new CampoInvalidoException("status", "o status informado não existe");
+        }
+        validation.validarInformacoes(machineEntidade);
         machineEntidade.setStatus(StatusMachine.valueOf(machineDTO.status().toUpperCase()));
         return machineRepository.save(machineEntidade);
     }
@@ -47,9 +57,10 @@ public class MachineService {
     }
 
     //Arrumar uma forma melhor de fazer isso depois!
-    public void updateMaquina(Long idMaquina, MachineDTO dto){
+    public void updateMaquina(Long idMaquina, UpdateMachineDTO dto){
         Machine machine = getIdReturnMaquina(idMaquina);
-        validation.validarInformacoes(mapper.toEntity(dto), dto);
+        mapper.updateEntityFromDto(dto,machine);
+        validation.validarInformacoes(machine);
         if(dto.status() != null){
             machine.setStatus(StatusMachine.valueOf(dto.status().toUpperCase()));
         }

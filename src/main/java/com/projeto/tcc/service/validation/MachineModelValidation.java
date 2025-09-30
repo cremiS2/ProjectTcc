@@ -13,7 +13,7 @@ public class MachineModelValidation {
 
     private final MachineModelRepository repository;
 
-    public void validarEntidade(MachineModel machineModel, MachineModelDTO dto){
+    public void validarEntidade(MachineModel machineModel){
         if(existeBoolean(machineModel)){
             throw new ConflitoCampoException("Modelo de máquina já cadastrado!");
         }

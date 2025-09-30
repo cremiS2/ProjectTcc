@@ -3,6 +3,7 @@ package com.projeto.tcc.controller;
 import com.projeto.tcc.dto.entry.MachineDTO;
 import com.projeto.tcc.dto.mappers.MachineMapper;
 import com.projeto.tcc.dto.exit.MachineResultDTO;
+import com.projeto.tcc.dto.update.UpdateMachineDTO;
 import com.projeto.tcc.service.MachineService;
 import com.projeto.tcc.service.MachineReportService;
 import jakarta.validation.Valid;
@@ -32,7 +33,7 @@ public class MachineController implements GenericController{
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizarMaquina(@PathVariable Long id, @RequestBody MachineDTO dto){
+    public ResponseEntity<Void> atualizarMaquina(@PathVariable Long id, @RequestBody @Valid UpdateMachineDTO dto){
         machineService.updateMaquina(id, dto);
         return ResponseEntity.noContent().build();
     }

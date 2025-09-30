@@ -2,6 +2,7 @@ package com.projeto.tcc.controller;
 
 import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.dto.exit.MachineModelResultDTO;
+import com.projeto.tcc.dto.update.UpdateMachineModelDTO;
 import com.projeto.tcc.service.MachineModelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class MachineModelController implements GenericController{
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateEntity(@PathVariable("id") Long id, @RequestBody MachineModelDTO machineModelDTO){
+    public ResponseEntity<Void> updateEntity(@PathVariable("id") Long id, @RequestBody @Valid UpdateMachineModelDTO machineModelDTO){
         service.updateMachineModel(id, machineModelDTO);
         return ResponseEntity.noContent().build();
     }

@@ -3,6 +3,7 @@ package com.projeto.tcc.service;
 import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.dto.exit.UserResultDTO;
 import com.projeto.tcc.dto.mappers.UserMapper;
+import com.projeto.tcc.dto.update.UpdateUserDTO;
 import com.projeto.tcc.entities.User;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.UserRepository;
@@ -28,6 +29,7 @@ public class UserService {
     private final UserMapper mapper;
     private final UserValidation userValidation;
 
+
     public User findUser(Long id) {
         return usuariosCache.computeIfAbsent(id, chave ->
                 userRepository.findById(chave).orElse(null)
@@ -47,11 +49,11 @@ public class UserService {
 
 
     @Transactional
-    public void update(UserDTO userDTO, Long id) {
+    public void update(UpdateUserDTO updateUserDTO, Long id) {
         User user = findUser(id);
-        mapper.updateEntidade(user, userDTO);
-        if(userDTO.password() != null){
-            user.setPassword(passwordEncoder.encode(userDTO.password()));
+        mapper.updateEntidade(user, updateUserDTO);
+        if(updateUserDTO.password() != null){
+            user.setPassword(passwordEncoder.encode(updateUserDTO.password()));
         }
         userRepository.save(user);
         usuariosCache.put(user.getId(), user);

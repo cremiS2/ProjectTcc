@@ -2,6 +2,7 @@ package com.projeto.tcc.controller;
 
 import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.dto.exit.UserResultDTO;
+import com.projeto.tcc.dto.update.UpdateUserDTO;
 import com.projeto.tcc.entities.User;
 import com.projeto.tcc.service.UserService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class UserController implements GenericController{
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody @Valid UpdateUserDTO userDTO){
         userService.update(userDTO, id);
         return ResponseEntity.noContent().build();
     }

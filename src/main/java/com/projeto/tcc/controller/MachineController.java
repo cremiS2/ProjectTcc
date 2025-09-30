@@ -4,6 +4,7 @@ import com.projeto.tcc.dto.entry.MachineDTO;
 import com.projeto.tcc.dto.mappers.MachineMapper;
 import com.projeto.tcc.dto.exit.MachineResultDTO;
 import com.projeto.tcc.service.MachineService;
+import com.projeto.tcc.service.MachineReportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ public class MachineController implements GenericController{
 
     private final MachineService machineService;
     private final MachineMapper mapper;
+    private final MachineReportService machinereportService;
 
     @PostMapping
     public ResponseEntity<Void> saveMachine(@RequestBody @Valid MachineDTO machineDTO) {
@@ -40,6 +42,17 @@ public class MachineController implements GenericController{
         machineService.deleteMachine(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<byte[]> gerarRelatorioMaquinas() {
+        byte[] relatorio = machinereportService.gerarRelatorioMaquinas();
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", "inline; filename=relatorio_maquinas.pdf")
+                .body(relatorio);
+    }
+
 
     @GetMapping
     public ResponseEntity<Page<MachineResultDTO>> pesquisa(

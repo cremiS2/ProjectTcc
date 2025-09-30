@@ -3,6 +3,7 @@ package com.projeto.tcc.controller;
 
 import com.projeto.tcc.dto.entry.EmployeeDTO;
 import com.projeto.tcc.dto.exit.EmployeeResultDTO;
+import com.projeto.tcc.service.EmployeeReportService;
 import com.projeto.tcc.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController implements GenericController {
 
     private final EmployeeService employeeService;
+    private final EmployeeReportService employeeReportService;
 
-//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
+    //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> saveEmployee(@RequestBody @Valid EmployeeDTO dto){
         var employee = employeeService.criarFuncionario(dto);
@@ -38,6 +40,17 @@ public class EmployeeController implements GenericController {
         employeeService.upadateFuncionario(id, dto);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<byte[]> gerarRelatorioFuncionarios() {
+        byte[] pdf = employeeReportService.gerarRelatorioFuncionarios();
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", "inline; filename=relatorio_funcionarios.pdf")
+                .body(pdf);
+    }
+
 
 //    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping
